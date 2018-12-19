@@ -9,3 +9,5 @@
 /tmp/
 /vendor/
 tags
+/.idea/
+.env

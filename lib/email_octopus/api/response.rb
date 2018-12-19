@@ -20,7 +20,7 @@ module EmailOctopus
       end
 
       def success?
-        @raw.is_a? Net::HTTPSuccess
+        @raw.is_a? HTTParty::Response
       end
 
       def error?
