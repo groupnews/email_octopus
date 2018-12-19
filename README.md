@@ -13,7 +13,7 @@ but most of the logic is there.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'email_octopus'
+gem "email_octopus", git: "https://github.com/gokaykucuk/email_octopus", branch: :master
 ```
 
 And then execute:
