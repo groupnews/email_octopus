@@ -6,7 +6,6 @@ module EmailOctopus
   class List < Model
     attribute :id
     attribute :name
-    
 
     def contacts
       Contact.where list_id: id

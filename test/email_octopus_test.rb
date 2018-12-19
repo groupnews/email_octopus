@@ -13,4 +13,9 @@ class EmailOctopusTest < Minitest::Test
     assert true
   end
 
+  def test_it_can_create_contacts
+    EmailOctopus::List.find(ENV['TEST_LIST_ID']).create_contact(email_address: "test@test.com")
+    assert true
+  end
+
 end

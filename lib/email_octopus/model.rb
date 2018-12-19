@@ -50,21 +50,25 @@ module EmailOctopus
       all.public_send method, *arguments
     end
 
+    def self.respond_to_missing?(method, include_private = false)
+      true
+    end
+
     # Define a new attribute method on the model that reads from the
     # +attributes+ hash.
     #
     # @param name [Symbol] Name of the attribute
     def self.attribute(name)
       define_method name do
-        attributes[name.to_s]
+        attributes[name]
       end
 
       define_method "#{name}=" do |value|
-        attributes[name.to_s] = value
+        attributes[name] = value
       end
     end
 
-    # 
+    #
     def persisted?
       id.present? && reload!
     end
@@ -78,28 +82,25 @@ module EmailOctopus
       attributes
     end
 
-    def to_json
-      as_json.to_json
-    end
-
     def destroy
-      @api.delete(base_path).success?
+      @api.delete(path, {}).success?
     end
 
     def reload!
-      @attributes = @api.get(path).body
+      @attributes = @api.get(path, {}).body
     end
 
     private
 
     def create
       # return true unless new_record?
-      @api.post(base_url, to_json).success?
+      @api.post(base_url, as_json).success?
     end
 
     def update
       return true unless persisted?
-      @api.patch(url, to_json).success?
+
+      @api.patch(url, as_json).success?
     end
 
     def persist!
@@ -107,7 +108,7 @@ module EmailOctopus
     end
 
     def base_path
-      "/#{model_name.collection}"
+      "/#{model_name.collection.split('/').last}"
     end
 
     def path
