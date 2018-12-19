@@ -14,5 +14,6 @@ module EmailOctopus
     def create_contact(params = {})
       Contact.create params.merge(list_id: id)
     end
+
   end
 end

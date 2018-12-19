@@ -22,6 +22,10 @@ module EmailOctopus
       results.each { |result| yield result }
     end
 
+    def first
+      results.first
+    end
+
     private
 
     def results

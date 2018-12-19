@@ -59,12 +59,12 @@ module EmailOctopus
     #
     # @param name [Symbol] Name of the attribute
     def self.attribute(name)
-      define_method name do
-        attributes[name]
+      define_method name.to_s do
+        attributes[name.to_s]
       end
 
       define_method "#{name}=" do |value|
-        attributes[name] = value
+        attributes[name.to_s] = value
       end
     end
 
@@ -94,7 +94,7 @@ module EmailOctopus
 
     def create
       # return true unless new_record?
-      @api.post(base_url, as_json).success?
+      @api.post(path, as_json).success?
     end
 
     def update

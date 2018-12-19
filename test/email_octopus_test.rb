@@ -6,6 +6,7 @@ class EmailOctopusTest < Minitest::Test
   end
 
   def test_it_can_get_lists
+    EmailOctopus::List.all.first
     assert true
   end
 
@@ -14,7 +15,10 @@ class EmailOctopusTest < Minitest::Test
   end
 
   def test_it_can_create_contacts
-    EmailOctopus::List.find(ENV['TEST_LIST_ID']).create_contact(email_address: "test@test.com")
+    # EmailOctopus::Contact.create(list_id:ENV['TEST_LIST_ID'], email_address: 'test@test.com')
+    list = EmailOctopus::List.find(ENV['TEST_LIST_ID'])
+    # list.contacts
+    list.create_contact(email_address: "test@test.com")
     assert true
   end
 
