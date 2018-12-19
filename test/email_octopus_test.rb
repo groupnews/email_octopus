@@ -5,10 +5,6 @@ class EmailOctopusTest < Minitest::Test
     refute_nil ::EmailOctopus::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
-  end
-
   def test_it_can_get_lists
     refute_empty EmailOctopus::List.all.each {|l| puts l }
   end

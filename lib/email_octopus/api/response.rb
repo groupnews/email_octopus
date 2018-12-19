@@ -43,7 +43,7 @@ module EmailOctopus
         when 'NOT_FOUND'
           Error::NotFound
         else
-          EmailOctopus::API::Error
+          Error
         end
       end
     end
