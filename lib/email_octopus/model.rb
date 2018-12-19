@@ -94,7 +94,7 @@ module EmailOctopus
 
     def create
       # return true unless new_record?
-      @api.post(path, as_json).success?
+      @api.post(base_path, as_json).success?
     end
 
     def update

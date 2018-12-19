@@ -8,7 +8,7 @@ module EmailOctopus
   class API
     include HTTParty
 
-    base_uri 'https://emailoctopus.com/api/1.1'
+    base_uri 'https://emailoctopus.com/api/1.5'
     format :json
     headers "Content-Type" => 'application/json'
 
@@ -23,7 +23,7 @@ module EmailOctopus
 
     def post(path, body = {})
       body['api_key'] = @api_key
-      Response.new self.class.post(path, body: body)
+      Response.new self.class.post(path, body: body.to_json)
     end
 
     def patch(path, body = {})

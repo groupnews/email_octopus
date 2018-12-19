@@ -3,13 +3,13 @@
 module EmailOctopus
   # Contact of a list
   class Contact < Model
-    attribute "id"
-    attribute "list_id"
-    attribute "first_name"
-    attribute "last_name"
-    attribute "email_address"
-    attribute "subscribed"
-    attribute "created_at"
+    attribute :id
+    attribute :list_id
+    attribute :first_name
+    attribute :last_name
+    attribute :email_address
+    attribute :subscribed
+    attribute :created_at
 
     def self.where(list_id: '')
       api = API.new EmailOctopus.config.api_key
@@ -24,8 +24,8 @@ module EmailOctopus
       end.to_h
     end
 
-    def base_url
-      "/lists/#{list_id}/contacts"
+    def base_path
+      "/lists/#{attributes[:list_id]}/contacts"
     end
 
   end
