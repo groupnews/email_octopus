@@ -14,7 +14,7 @@ module EmailOctopus
     def self.where(list_id: '')
       api = API.new EmailOctopus.config.api_key
       api.get("/lists/#{list_id}/contacts", {}).body['data'].map do |params|
-        new(params)
+        new params.merge(list_id: list_id)
       end
     end
 
