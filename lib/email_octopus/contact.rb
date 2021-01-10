@@ -5,10 +5,9 @@ module EmailOctopus
   class Contact < Model
     attribute :id
     attribute :list_id
-    attribute :first_name
-    attribute :last_name
+    attribute :fields
     attribute :email_address
-    attribute :subscribed
+    attribute :status
     attribute :created_at
 
     def self.where(list_id: '')
