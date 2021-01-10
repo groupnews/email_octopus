@@ -94,14 +94,23 @@ module EmailOctopus
     private
 
     def create
-      # return true unless new_record?
-      @api.post(base_path, as_json).success?
+      return false if id.present?
+      response = @api.post(base_path, as_json)
+      is_successful = response.success?
+      reload! if will_reload_response?(is_successful)
+      is_successful
     end
 
     def update
-      return true unless persisted?
+      return false unless id.present?
+      response = @api.put(path, as_json)
+      is_successful = response.success?
+      reload! if will_reload_response?(is_successful)
+      is_successful
+    end
 
-      @api.patch(url, as_json).success?
+    def will_reload_response?(is_successful=false)
+      is_successful and EmailOctopus.config.reload_models_on_create_and_update
     end
 
     def persist!
