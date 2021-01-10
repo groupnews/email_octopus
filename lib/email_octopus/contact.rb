@@ -24,7 +24,7 @@ module EmailOctopus
     end
 
     def base_path
-      "/lists/#{attributes[:list_id]}/contacts"
+      "/lists/#{attributes['list_id']}/contacts"
     end
 
   end

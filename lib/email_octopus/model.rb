@@ -13,7 +13,7 @@ module EmailOctopus
 
     # @param params [Hash] Initial attributes for this model.
     def initialize(params = {})
-      self.attributes = params
+      @attributes = params.transform_keys(&:to_s)
       @api = API.new(EmailOctopus.config.api_key)
     end
 
@@ -68,13 +68,6 @@ module EmailOctopus
       end
     end
 
-    # Set attributes in a DRY format.
-    #
-    # @param params [Object] Hash of attributes for the model.
-    def attributes=(attrs)
-      @attributes = attrs.transform_keys(&:to_s)
-    end
-
     #
     def persisted?
       id.present? && reload!
@@ -94,7 +87,8 @@ module EmailOctopus
     end
 
     def reload!
-      self.attributes = @api.get(path, {}).body
+      new_attributes = @api.get(path, {}).body.transform_keys(&:to_s)
+      @attributes = @attributes.merge new_attributes
     end
 
     private
