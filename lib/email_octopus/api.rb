@@ -26,14 +26,17 @@ module EmailOctopus
       Response.new self.class.post(path, body: body.to_json)
     end
 
-    def patch(path, body = {})
-      body['api_key'] = @api_key
-      Response.new self.class.patch(path, body: body)
-    end
+    # EmailOctopus API v1.5 does not use a patch method.
+    # The server returns "405 Method Not Allowed".
+    #
+    # def patch(path, body = {})
+    #   body['api_key'] = @api_key
+    #   Response.new self.class.patch(path, body: body.to_json)
+    # end
 
     def put(path, body = {})
       body['api_key'] = @api_key
-      Response.new self.class.put(path, body: body)
+      Response.new self.class.put(path, body: body.to_json)
     end
 
     def delete(path, url_params)
