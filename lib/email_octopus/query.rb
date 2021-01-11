@@ -21,22 +21,6 @@ module EmailOctopus
       self
     end
 
-    def each
-      results.each { |result| yield result }
-    end
-
-    def first
-      results.first
-    end
-
-    def last
-      results.last
-    end
-
-    def count
-      results.length
-    end
-
     def results
       @results ||= @api.get(path, attributes).body['data'].map { |params| @model.new(params) }
     end
