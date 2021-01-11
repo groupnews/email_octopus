@@ -20,7 +20,7 @@ module EmailOctopus
       end
 
       def success?
-        @raw.is_a? HTTParty::Response
+        @raw.code.to_s[0].to_i < 4
       end
 
       def error?

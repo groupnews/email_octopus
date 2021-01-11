@@ -19,7 +19,7 @@ module EmailOctopus
 
     def as_json
       attributes.reject do |(key, _val)|
-        /#{key.to_s}/ =~ 'list_id'
+        %w(id list_id created_at).include? key.to_s
       end.to_h
     end
 
