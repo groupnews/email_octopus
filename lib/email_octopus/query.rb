@@ -3,10 +3,13 @@
 module EmailOctopus
   # Runs a query on model data.
   class Query
-    def initialize(model)
+    def initialize(model, _page=1, _limit=100)
       @model = model
-      @api = API.new(EmailOctopus.config.api_key)
-      reset_results
+      limit validate_limit(_limit)
+      page validate_page(_page)
+
+      @api = API.new EmailOctopus.config.api_key
+      @results = nil
     end
 
     def limit(num)

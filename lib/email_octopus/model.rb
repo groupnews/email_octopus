@@ -34,8 +34,8 @@ module EmailOctopus
     # Start a new query on a group of model resources.
     #
     # @return [Query] for this model class.
-    def self.all
-      Query.new self
+    def self.all(page:1, limit:100)
+      Query.new self, page, limit
     end
 
     # Delegate all class method calls that aren't defined on the model
