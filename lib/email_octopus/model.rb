@@ -90,8 +90,10 @@ module EmailOctopus
     end
 
     def reload!
-      new_attributes = @api.get(path, {}).body.transform_keys(&:to_s)
+      request = @api.get(path, {})
+      new_attributes = request.body.transform_keys(&:to_s)
       @attributes = @attributes.merge new_attributes
+      request.success?
     end
 
     private

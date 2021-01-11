@@ -13,7 +13,7 @@ but most of the logic is there.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "email_octopus", git: "https://github.com/gokaykucuk/email_octopus", branch: :master
+gem "email_octopus", git: "https://github.com/givesafe/email_octopus", branch: :master
 ```
 
 And then execute:
@@ -62,23 +62,90 @@ contact = EmailOctopus::Contact.create(
 )
 ```
 
-### Creating a new campaign for that list
+
+### Getting Contacts for that list
 
 ```ruby
 list = EmailOctopus::List.find 'previous-list-id'
-campaign = EmailOctopus::Campaign.new(
-  list_id: list.id,
-  name: 'hello world',
-  content: 'test'
-)
+contacts = list.contacts
 ```
+
+or you can use Contact.where
+
+```ruby
+contacts = EmailOctopus::Contact.where(list_id: 'previous-list-id')
+```
+
+### Find a specific user for that list
+
+You cannot find a contact outside of a list.
+```ruby
+list = EmailOctopus::Contact.where(list_id: 'previous-list-id')
+contacts = list.contacts
+
+contact = list.contact.select {|x| x.id == 'previous_contact_id'}
+```
+
+
+You can also initialize a contact and then check if it is persisted.
+```ruby
+contact = EmailOctopus::Contact.new list_id: 'previous-list-id', id: 'previous-contact-id'
+contact.persisted? # if the user exists, the contact variable will update with refreshed attributes
+```
+
+
 
 ### Removing a user from the contact list
 
 ```ruby
-contact = EmailOctopus::Contact.find 'previous-contact-id'
+list = EmailOctopus::Contact.where(list_id: 'previous-list-id')
+contacts = list.contacts
+
+contact = list.contact.select {|x| x.id == 'previous_contact_id'}
 contact.destroy
 ```
+
+
+## Query Compaigns and Lists
+
+### Getting Campaigns
+
+```ruby
+# Queries default with page: 1, and limit: 100.
+# the maximum limit is 100
+campaigns_query = EmailOctopus::Campaign.all(page: 2, limit: 10)
+
+campaigns = campaigns_query.results
+
+# You may change the page or limit settings for the query manually.
+campaigns_query.page 3
+compaigns_query.limit 100
+
+# Make sure you call #results again after setting page or limit.
+next_page_of_campaigns = campaigns_query.results
+
+
+```
+
+### Getting Lists
+
+```ruby
+# Queries default with page: 1, and limit: 100.
+# the maximum limit is 100
+campaigns_query = EmailOctopus::List.all(page: 2, limit: 10)
+
+campaigns = campaigns_query.results
+
+# You may change the page or limit settings for the query manually.
+campaigns_query.page 3
+compaigns_query.limit 100
+
+# Make sure you call #results again after setting page or limit.
+next_page_of_campaigns = campaigns_query.results
+
+
+```
+
 
 ## Development
 
