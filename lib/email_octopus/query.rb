@@ -6,14 +6,17 @@ module EmailOctopus
     def initialize(model)
       @model = model
       @api = API.new(EmailOctopus.config.api_key)
+      reset_results
     end
 
     def limit(num)
+      reset_results
       @limit = num
       self
     end
 
     def page(num)
+      reset_results
       @page = num
       self
     end
@@ -26,10 +29,24 @@ module EmailOctopus
       results.first
     end
 
-    private
+    def last
+      results.last
+    end
+
+    def count
+      results.length
+    end
 
     def results
-      @api.get(path, attributes).body['data'].map { |params| @model.new(params) }
+      @results ||= @api.get(path, attributes).body['data'].map { |params| @model.new(params) }
+    end
+
+    private
+
+    # ensure the results are reset whenever the Query objects page changes so
+    # that new calls to results will use updated api response data
+    def reset_results
+      @results = nil
     end
 
     def path
