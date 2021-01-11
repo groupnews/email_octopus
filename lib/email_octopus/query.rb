@@ -11,13 +11,13 @@ module EmailOctopus
 
     def limit(num)
       reset_results
-      @limit = num
+      @limit = validate_limit(num)
       self
     end
 
     def page(num)
       reset_results
-      @page = num
+      @page = validate_page(num)
       self
     end
 
@@ -41,9 +41,20 @@ module EmailOctopus
       {
         limit: @limit,
         page: @page
-      }.each_with_object({}) do |memo, (key, val)|
-        memo[key] = val unless val.nil?
-      end
+      }
+    end
+
+    # ensure that limits are between 1-100
+    def validate_limit(value)
+      return 1 if value < 1
+      return 100 if value > 100
+      value.to_i
+    end
+
+    # ensure that pages are not less than 1
+    def validate_page(value)
+      return 1 if value < 1
+      value.to_i
     end
   end
 end
