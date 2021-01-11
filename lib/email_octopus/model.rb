@@ -27,12 +27,15 @@ module EmailOctopus
     # Find a resource by its given ID.
     #
     # @param id [String] ID provided by EmailOctopus for this resource.
+    # @return [Model] instance for this model class.
     def self.find(id)
       new(id: id).tap(&:persisted?)
     end
 
     # Start a new query on a group of model resources.
     #
+    # @param page [Integer] A specific page to return records from.
+    # @param limit [Integer] The number of records to return per page.
     # @return [Query] for this model class.
     def self.all(page:1, limit:100)
       Query.new self, page, limit
