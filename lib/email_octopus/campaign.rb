@@ -7,5 +7,12 @@ module EmailOctopus
     attribute :to
     attribute :from
     attribute :content
+    attribute :created_at
+    attribute :sent_at
+
+    # Current version does not support Create or Updating Campaigns with the API
+    def save
+      false
+    end
   end
 end
