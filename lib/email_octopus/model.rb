@@ -61,7 +61,7 @@ module EmailOctopus
     # +attributes+ hash.
     #
     # @param name [Symbol] Name of the attribute
-    def self.attribute(name)
+    def self.attribute(name, default_value=nil)
       define_method name.to_s do
         attributes[name.to_s]
       end
