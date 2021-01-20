@@ -7,7 +7,7 @@ module EmailOctopus
       # @param response [EmailOctopus::API::Response] Original response.
       def initialize(response)
         @response = response
-        super @response.body['message']
+        super @response.body['error']['message']
       end
     end
   end

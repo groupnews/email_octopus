@@ -45,7 +45,7 @@ module EmailOctopus
         EmailOctopus::API::Error::ApiKeyInvalid
       when 'UNAUTHORISED'
         EmailOctopus::API::Error::Unauthorized
-      when 'NOT_FOUND'
+      when 'NOT_FOUND', 'MEMBER_NOT_FOUND'
         EmailOctopus::API::Error::NotFound
       when 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS'
         EmailOctopus::API::Error::MemberEmailAlreadyExistsInList

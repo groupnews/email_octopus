@@ -91,6 +91,7 @@ module EmailOctopus
 
     def reload!
       request = @api.get(path, {})
+      return false unless request.success?
       new_attributes = request.body.transform_keys(&:to_s)
       @attributes = @attributes.merge new_attributes
       request.success?
