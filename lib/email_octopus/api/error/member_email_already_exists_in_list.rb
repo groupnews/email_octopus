@@ -2,7 +2,7 @@
 
 module EmailOctopus
   class API
-    class Error::Unauthorized < Error
+    class Error::MemberEmailAlreadyExistsInList < Error
     end
   end
 end

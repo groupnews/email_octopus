@@ -37,5 +37,6 @@ module EmailOctopus
     autoload :InvalidParameters
     autoload :NotFound
     autoload :Unauthorized
+    autoload :MemberEmailAlreadyExistsInList
   end
 end

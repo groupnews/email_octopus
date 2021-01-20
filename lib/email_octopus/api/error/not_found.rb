@@ -2,10 +2,7 @@
 
 module EmailOctopus
   class API
-    class Error < StandardError
-      # Thrown when resource cannot be found.
-      class NotFound < Error
-      end
+    class Error::NotFound < Error
     end
   end
 end

@@ -3,8 +3,11 @@
 module EmailOctopus
   # Runs a query on model data.
   class Query
-    def initialize(model, _page=1, _limit=100)
+    attr_reader :path
+
+    def initialize(model, _page=1, _limit=100, _path="")
       @model = model
+      @path = _path.length > 0 ? _path : default_path
       limit validate_limit(_limit)
       page validate_page(_page)
 
@@ -25,7 +28,10 @@ module EmailOctopus
     end
 
     def results
-      @results ||= @api.get(path, attributes).body['data'].map { |params| @model.new(params) }
+      @results ||= @api.get(path, attributes).body['data'].map do |params|
+        params = yield(params) if block_given?
+        @model.new params
+      end
     end
 
     private
@@ -36,7 +42,7 @@ module EmailOctopus
       @results = nil
     end
 
-    def path
+    def default_path
       "/#{@model.model_name.collection.split('/').last}"
     end
 

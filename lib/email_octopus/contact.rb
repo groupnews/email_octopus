@@ -11,9 +11,17 @@ module EmailOctopus
     attribute :created_at
 
     def self.where(list_id: '')
-      api = API.new EmailOctopus.config.api_key
+      main_list = current_list = self.all(list_id)
+      return main_list if main_list.length < 100
 
-      self.all_pages(list_id)
+      page = 1
+      until current_list.length < 100
+        page += 1
+        current_list = self.all(list_id, page: page)
+        main_list << current_list
+      end
+
+      main_list.flatten
     end
 
     def as_json
@@ -26,32 +34,12 @@ module EmailOctopus
       "/lists/#{attributes['list_id']}/contacts"
     end
 
-    # if we update query.rb to be able to use parent dependency for certain classes
-    # then we could manage all of this is Query.
-    #
-    # This new method adds value to all Model objects in the case that you HAVE
-    # to receive the full list.
-    def self.all_pages(list_id)
-      main_list = current_list = all(list_id)
-      return main_list if main_list.length < 100
-
-      page = 1
-      until current_list.length < 100
-        page += 1
-        current_list = all(list_id, page: page)
-        main_list << current_list
-      end
-
-      main_list.flatten
-    end
-
-    # This is the original .all which maybe that one
     def self.all(list_id, page: 1, limit: 100)
-      "/lists/#{list_id}/contacts?page=#{page}&limit=#{limit}"
-
-      api.get(contacts_url(page: page, limit: limit), {}).body['data'].map do |params|
-        new params.merge(list_id: list_id)
+      _path = "/lists/#{list_id}/contacts"
+      query = Query.new(self, page, limit, _path).results do |params|
+        params.merge(list_id: list_id)
       end
+      query
     end
 
   end
