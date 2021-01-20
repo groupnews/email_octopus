@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'email_octopus/api'
 require 'active_model/naming'
-
+require 'byebug'
 module EmailOctopus
   # Common code for model objects.
   class Model
@@ -89,29 +89,35 @@ module EmailOctopus
       @api.delete(path, {}).success?
     end
 
-    def reload!
-      request = @api.get(path, {})
-      new_attributes = request.body['data'][0].transform_keys(&:to_s)
+    def reload!(response=nil)
+      response ||= @api.get(path, {})
+      return false unless response.success?
+
+      new_attributes = response.body
+      new_attributes = new_attributes['data'][0] if new_attributes.keys.include?('data')
+      new_attributes = new_attributes.transform_keys(&:to_s)
 
       @attributes = @attributes.merge new_attributes
-      request.success?
+      response.success?
     end
 
     private
 
     def create
       return false if id.present?
+
       response = @api.post(base_path, as_json)
       is_successful = response.success?
-      reload! if will_reload_response?(is_successful)
+      reload!(response) if will_reload_response?(is_successful)
       is_successful
     end
 
     def update
       return false unless id.present?
+
       response = @api.put(path, as_json)
       is_successful = response.success?
-      reload! if will_reload_response?(is_successful)
+      reload!(response) if will_reload_response?(is_successful)
       is_successful
     end
 
