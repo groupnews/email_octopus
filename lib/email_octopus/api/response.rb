@@ -5,7 +5,6 @@ require 'email_octopus/api/error/invalid_parameters'
 require 'email_octopus/api/error/not_found'
 require 'email_octopus/api/error/unauthorized'
 require 'email_octopus/api/error/member_email_already_exists_in_list'
-require 'byebug'
 
 module EmailOctopus
   # Response object that parses out JSON.
@@ -51,7 +50,6 @@ module EmailOctopus
       when 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS'
         EmailOctopus::API::Error::MemberEmailAlreadyExistsInList
       else
-        byebug
         EmailOctopus::API::Error
       end
     end
