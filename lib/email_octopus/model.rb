@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'email_octopus/api'
 require 'active_model/naming'
-require 'byebug'
+
 module EmailOctopus
   # Common code for model objects.
   class Model
