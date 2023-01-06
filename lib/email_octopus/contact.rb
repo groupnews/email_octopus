@@ -8,6 +8,7 @@ module EmailOctopus
     attribute :fields
     attribute :email_address
     attribute :status
+    attribute :tags
     attribute :created_at
 
     def self.where(list_id: '')
