@@ -8,7 +8,7 @@ module EmailOctopus
   class API
     include HTTParty
 
-    base_uri 'https://emailoctopus.com/api/1.5'
+    base_uri 'https://emailoctopus.com/api/1.6'
     format :json
     headers "Content-Type" => 'application/json'
 
@@ -26,7 +26,7 @@ module EmailOctopus
       Response.new self.class.post(path, body: body.to_json)
     end
 
-    # EmailOctopus API v1.5 does not use a patch method.
+    # EmailOctopus API v1.6 does not use a patch method.
     # The server returns "405 Method Not Allowed".
     #
     # def patch(path, body = {})

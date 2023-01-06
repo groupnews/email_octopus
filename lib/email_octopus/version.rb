@@ -1,3 +1,3 @@
 module EmailOctopus
-  VERSION = "1.5.0.6b"
+  VERSION = "2.0.0.1b"
 end
