@@ -41,7 +41,7 @@ module EmailOctopus
 
     def delete(path, url_params)
       url_params['api_key'] = @api_key
-      Response.new self.class.get(path, query: url_params)
+      Response.new self.class.delete(path, query: url_params)
     end
   end
 end
